@@ -9,7 +9,7 @@ import main.java.nl.iipsen2server.models.DatabaseModel;
 import main.java.nl.iipsen2server.models.Permission;
 import main.java.nl.iipsen2server.models.AccountModel;
 
-public class PermissionDatabase {
+public class PermissionDAO {
 
 	 String tableName = "app_user";
 	 private DatabaseModel databaseModel = DataModel.getApplicationModel().getServers().get(0).getDatabase().get(0);
@@ -26,11 +26,11 @@ public class PermissionDatabase {
 	  * 
 	  *
 	  */
-	 public boolean giveRead2(AccountModel u) {
+	 public boolean giveRead2(String username) {
 		  String query2 = "select permission from app_user where username=?;";
-	 if (!userDatabase.hasPermission("READ", u.getUsername(), query2)) {
+	 if (!userDatabase.hasPermission("READ", username, query2)) {
 		  try {
-			givePermission(u, Permission.READ);
+			givePermission(username, Permission.READ);
 			 return true;
 		} catch (Exception e) {
 		}
@@ -45,9 +45,9 @@ public class PermissionDatabase {
 	 * 
 	 *
 	 */
-	 public boolean giveWrite2(AccountModel u) {
+	 public boolean giveWrite2(String u) {
 		  String query2 = "select permission from app_user where username=?;";
-	 if (!userDatabase.hasPermission("WRITE", u.getUsername(), query2)) {
+	 if (!userDatabase.hasPermission("WRITE", u, query2)) {
 		  try {
 			  givePermission(u, Permission.WRITE);
 			 return true;
@@ -64,11 +64,11 @@ public class PermissionDatabase {
 	 /**
 	  * @author Anthony Scheeres
 	  */
-	 public boolean giveDelete2(AccountModel accountModel) {
+	 public boolean giveDelete2(String u) {
 		  String query2 = "select permission from app_user where username=?;";
-		  if (!userDatabase.hasPermission("DELETE", accountModel.getUsername(), query2)) {
+		  if (!userDatabase.hasPermission("DELETE", u, query2)) {
 		 	  try {
-		 		  givePermission(accountModel, Permission.DELETE);
+		 		  givePermission(u, Permission.DELETE);
 		 		 return true;
 		 	} catch (Exception e) {
 		 	}
@@ -87,11 +87,11 @@ public class PermissionDatabase {
 	  * @author Anthony Scheeres
 	  *
 	  */
-	 private void givePermission(AccountModel u, Enum e) throws Exception {
+	 private void givePermission(String u, Enum e) throws Exception {
 		  PreparedStatmentDatabaseUtilities databaseController = new PreparedStatmentDatabaseUtilities();
 		  List < String > list = new ArrayList < String > ();
 		  String query2 = String.format("UPDATE app_user SET permission = array_append(permission,'%s') WHERE username = ?;", e);
-		  list.add(u.getUsername());
+		  list.add(u);
 		  databaseController.connectDatabaseJson(databaseModel, query2, list, false);
 	 }
 	 

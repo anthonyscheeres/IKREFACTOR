@@ -7,7 +7,7 @@ import main.java.nl.iipsen2server.models.DataModel;
 import main.java.nl.iipsen2server.models.DatabaseModel;
 import main.java.nl.iipsen2server.models.LogModel;
 import main.java.nl.iipsen2server.models.UserModel;
-import main.java.nl.iipsen2server.dao.PermissionDatabase;
+import main.java.nl.iipsen2server.dao.PermissionDAO;
 import main.java.nl.iipsen2server.dao.PreparedStatmentDatabaseUtilities;
 import main.java.nl.iipsen2server.models.AccountModel;
 
@@ -28,7 +28,7 @@ public class AuthenticationController {
 	  * 
 	  *
 	  */
-	public String handleGiveRead(AccountModel u, String token) {
+	public String handleGiveRead(String u, String token) {
 		AccountController accountController = new AccountController();
 		LoggingController loggingController = new LoggingController();
 		TokenController tokenController = new TokenController();
@@ -40,8 +40,8 @@ public class AuthenticationController {
 			loggingController.createLog(
 					new LogModel(
 							null, 
-							"Gebruiker heeft lees rechten gekregen:"+ u.getUsername(), 
-							"Gebruiker:"+ u.getUsername() + ", deze gebruiker heeft lees rechten gekregen van super gebruiker", 
+							"Gebruiker heeft lees rechten gekregen:"+ u, 
+							"Gebruiker:"+ u + ", deze gebruiker heeft lees rechten gekregen van super gebruiker", 
 							new UserModel(null, null, employeeId, null, null), 
 							0 
 							), 0);
@@ -58,7 +58,7 @@ public class AuthenticationController {
 	  * 
 	  *
 	  */
-	public String handleGiveWrite(AccountModel u,String token) {
+	public String handleGiveWrite(String u,String token) {
 		LoggingController loggingController = new LoggingController();
 		AccountController accountController = new AccountController();
 		TokenController tokkenController = new TokenController();
@@ -72,8 +72,8 @@ public class AuthenticationController {
 		loggingController.createLog(
 				new LogModel(
 				null, 
-				"Gebruiker heeft verwijder rechten gekregen:"+ u.getUsername(), 
-				"Gebruiker:"+ u.getUsername() + ", deze gebruiker heeft verwijder rechten gekregen van super gebruiker", 
+				"Gebruiker heeft verwijder rechten gekregen:"+ u, 
+				"Gebruiker:"+ u+ ", deze gebruiker heeft verwijder rechten gekregen van super gebruiker", 
 				new UserModel(
 						null, 
 						null, 
@@ -111,7 +111,7 @@ public class AuthenticationController {
 	  * @author Anthony Scheeres
 	  *
 	  */
-	public String handleGiveDelete(AccountModel u, long employeeId) {
+	public String handleGiveDelete(String u, long employeeId) {
 		LoggingController loggingController = new LoggingController();
 		AccountController accountController = new AccountController();
 		if (!hasSuperPermission(employeeId)) {
@@ -122,8 +122,8 @@ public class AuthenticationController {
 			loggingController.createLog(
 					new LogModel(
 							null,
-							"Gebruiker heeft schrijf rechten gekregen:"+ u.getUsername(),
-							"Gebruiker:"+ u.getUsername() + ", deze gebruiker heeft schrijf rechten gekregen van super gebruiker",
+							"Gebruiker heeft schrijf rechten gekregen:"+ u,
+							"Gebruiker:"+ u+ ", deze gebruiker heeft schrijf rechten gekregen van super gebruiker",
 							new UserModel(
 									null,
 									null,

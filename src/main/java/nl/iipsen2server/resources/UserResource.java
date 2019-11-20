@@ -42,7 +42,7 @@ public class UserResource {
 	@Path("/{token}/read")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String giveRead(@PathParam("token") String token, AccountModel u)  {
-		return authenticationController.handleGiveRead(u, token);
+		return authenticationController.handleGiveRead(u.getUsername(), token);
 	}
 	
 	
@@ -57,7 +57,7 @@ public class UserResource {
 	@Path("/{token}/write")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String giveWrite(@PathParam("token") String token,AccountModel u)  {
-		return authenticationController.handleGiveWrite(u, token);
+		return authenticationController.handleGiveWrite(u.getUsername(), token);
 	}
 	
 	
@@ -73,7 +73,7 @@ public class UserResource {
 	public String giveDelete(@PathParam("token") String token,AccountModel u)  {
 		TokenController t = new TokenController();
 		long employeeId = Long.parseLong(t.tokenToUserId(token));
-		return authenticationController.handleGiveDelete(u, employeeId);
+		return authenticationController.handleGiveDelete(u.getUsername(), employeeId);
 		}
 	
 	

@@ -12,7 +12,7 @@ import main.java.nl.iipsen2server.models.LogModel;
 import main.java.nl.iipsen2server.models.Permission;
 import main.java.nl.iipsen2server.models.UserModel;
 import main.java.nl.iipsen2server.dao.DatabaseUtilities;
-import main.java.nl.iipsen2server.dao.PermissionDatabase;
+import main.java.nl.iipsen2server.dao.PermissionDAO;
 import main.java.nl.iipsen2server.dao.PreparedStatmentDatabaseUtilities;
 import main.java.nl.iipsen2server.dao.UserDatabase;
 import main.java.nl.iipsen2server.models.AccountModel;
@@ -25,7 +25,7 @@ import main.java.nl.iipsen2server.models.AccountModel;
 
 public class AccountController {
 private UserDatabase userDatabase = new UserDatabase();
-private PermissionDatabase permissionDatabase = new PermissionDatabase();
+private PermissionDAO permissionDatabase = new PermissionDAO();
 
 
 /**
@@ -40,23 +40,23 @@ private PermissionDatabase permissionDatabase = new PermissionDatabase();
  * @return
  * @author Anthony Scheeres
  */
-    public boolean giveRead2(AccountModel u) {
-        return permissionDatabase.giveRead2(u);
+    public boolean giveRead2(String username) {
+        return permissionDatabase.giveRead2(username);
     }
 
 
     /**
      * @author Anthony Scheeres
      */
-    public boolean giveWrite2(AccountModel user) {
+    public boolean giveWrite2(String user) {
         return permissionDatabase.giveWrite2(user);
     }
 
     /**
      * @author Anthony Scheeres
      */
-    public boolean giveDelete2(AccountModel accountModel) {
-        return permissionDatabase.giveDelete2(accountModel);
+    public boolean giveDelete2(String user) {
+        return permissionDatabase.giveDelete2(user);
     }
 
     /**
@@ -65,11 +65,12 @@ private PermissionDatabase permissionDatabase = new PermissionDatabase();
     private String createUserModel(UserModel userModel) throws Exception {
         UserController r = new UserController();
         HashMap<String, List<String>> hashmap;
+        String result = null;
         hashmap = userDatabase.getUsers();
         if (r.checkIfUsernameExist(hashmap.get("username"), userModel.getUsername()) != true) {
-            return userDatabase.insertHandlerUser(hashmap, userModel);
+        	  result =  userDatabase.insertHandlerUser(hashmap, userModel);
         }
-        return null;
+        return result;
     }
 
 
@@ -190,9 +191,12 @@ private PermissionDatabase permissionDatabase = new PermissionDatabase();
         for (int i = 0; i < data.get("token").size(); i++) {
             if (data.get("email").get(i) != null && data.get("token").get(i) != null) {
                 if (token.equals(data.get("token").get(i))) {
-
-                    if (data.get("email").get(i).toUpperCase().split("@")[1].equals(domain)) {
-                        giveRead2(new AccountModel(data.get("username").get(i), null, null, null, null));
+                	String yourDomain = getDomeinNameFromMail(data.get("email").get(i).toUpperCase());
+                    if ( yourDomain.equals(domain)) {
+                    	String accountModel = data.get("username").get(i); //use username to uniquely identify a user 
+                    	
+              
+                        giveRead2(accountModel);
                         return "success";
                     } else return "domein invalid, should be: " + domain;
                 }
@@ -201,6 +205,11 @@ private PermissionDatabase permissionDatabase = new PermissionDatabase();
         return "fail";
     }
 
+    
+    private String getDomeinNameFromMail(String email){
+    	return email.split("@")[1];
+    }
+    
 
     /**
      * @author Jesse Poleij, Anthony Scheeres

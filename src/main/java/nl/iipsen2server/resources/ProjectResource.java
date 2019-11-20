@@ -1,7 +1,7 @@
 package main.java.nl.iipsen2server.resources;
 
 import main.java.nl.iipsen2server.controlllers.ProjectsController;
-import main.java.nl.iipsen2server.models.ProjectModel2;
+import main.java.nl.iipsen2server.models.ExperimentModel2;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -22,7 +22,7 @@ public class ProjectResource {
     @POST
     @Path("/{token}/createProject")
     @Consumes(MediaType.APPLICATION_JSON)
-    public String openProject(ProjectModel2 project, @PathParam("token") String token){
+    public String openProject(ExperimentModel2 project, @PathParam("token") String token){
         ProjectsController projectsController = new ProjectsController();
         return projectsController.handleCreateProject(project, token);
     }
@@ -37,7 +37,7 @@ public class ProjectResource {
     @POST
     @Path("/{token}/createProject")
     @Consumes(MediaType.APPLICATION_JSON)
-    public String deleteProject(ProjectModel2 project, @PathParam("token") String token){
+    public String deleteProject(ExperimentModel2 project, @PathParam("token") String token){
         ProjectsController projectsController = new ProjectsController();
         return projectsController.deleteCreateProject(project, token);
     }

@@ -19,14 +19,14 @@ public class DirectoryController {
 	  public String writeFileToDocuments(String folder, String fileName, String value){
 	    	String url = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
 	    	System.out.println(url);
-	    	
+	    	  String result = null;
 	    	try {
-				return writeFile(url, folder, fileName, value);
+				result = writeFile(url, folder, fileName, value);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    	return null;
+	    	return result;
 	    
 	    }
 	    

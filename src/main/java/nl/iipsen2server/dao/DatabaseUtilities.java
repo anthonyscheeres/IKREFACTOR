@@ -113,6 +113,7 @@ public class DatabaseUtilities {
             String hostName,
             String query
     ) throws Exception {
+    	  String result = null;
         String url = createUrl(portNumber, databaseName, hostName);
         HashMap < String, List < String >> hashmap = new HashMap < String, List < String >> ();
         // When this class first attempts to establish a connection, it automatically loads any JDBC 4.0 drivers found within 
@@ -125,12 +126,12 @@ public class DatabaseUtilities {
             JsonConverterUtilities jsonConverer = new JsonConverterUtilities();
             String json = jsonConverer.convertToJSON(resultSet).toString();
             connection.close();
-            return json;
+            result = json;
         } catch (SQLException err) {
             System.out.println("Connection failure.");
             err.printStackTrace();
         }
-        return null;
+        return result;
     }
 
 
@@ -150,6 +151,7 @@ public class DatabaseUtilities {
             String hostName,
             String query
     ) throws Exception {
+    	  HashMap<String, List<String>> result = null;
         String url = createUrl(portNumber, databaseName, hostName);
         HashMap < String, List < String >> e = new HashMap < String, List < String >> ();
         // When this class first attempts to establish a connection, it automatically loads any JDBC 4.0 drivers found within 
@@ -160,12 +162,12 @@ public class DatabaseUtilities {
             ResultSet resultSet = this.enterQuery(connection, query);
             HashMap < String, List < String >> hashmap = getTableContents2(resultSet);
             connection.close();
-            return hashmap;
+            result =  hashmap;
         } catch (SQLException err) {
             System.out.println("Connection failure.");
             err.printStackTrace();
         }
-        return null;
+        return result;
     }
 
 
@@ -200,17 +202,18 @@ public class DatabaseUtilities {
     // this methode can be used to insert an query
     private ResultSet enterQuery(Connection connection, String query) {
         Statement statement;
-
+        ResultSet result = null;
         System.out.println(query);
 
         try {
             statement = connection.createStatement();
-            return statement.executeQuery(query);
+            result = statement.executeQuery(query);
         } catch (SQLException e) {
 
             e.printStackTrace();
-            return null;
         }
+            return result;
+        
 
 
 

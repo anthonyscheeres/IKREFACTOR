@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ProjectDatabase {
+public class ProjectDAO {
 
     private DatabaseModel databaseModel = DataModel.getApplicationModel().getServers().get(0).getDatabase().get(0);
     /*
     *@author Cyriel van der Raaf
     *Gebruikt een prepared statement om waardes in het tabel projects te plaatsen.
     */
-    public void sendProject(ProjectModel2 model){
+    public void sendProject(ExperimentModel2 model){
         PreparedStatmentDatabaseUtilities dbUtilities = new PreparedStatmentDatabaseUtilities();
 
         long id = model.getId();
@@ -45,7 +45,7 @@ public class ProjectDatabase {
     *@author Cyriel van der Raaf
     *Gebruikt een prepared statement om een project te verwijderen.
     */
-    public void deleteProject(ProjectModel2 projectModel){
+    public void deleteProject(ExperimentModel2 projectModel){
         DatabaseUtilities databaseUtilities = new DatabaseUtilities();
 
         String query1 = String.format("DELETE FROM projects WHERE id='&d';", projectModel.getId());

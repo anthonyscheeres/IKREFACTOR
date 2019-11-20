@@ -50,11 +50,12 @@ public class MailController {
 	 public HashMap<String, List<String>> getTokens() {
 		 String query = String.format("select username, token, email from %s;", tableName);
 		  DatabaseUtilities databaseUtilites = new DatabaseUtilities();
+		  HashMap<String, List<String>> result = null;
 		  try {
 			  DatabaseModel databaseModel = DataModel.getApplicationModel().getServers().get(0).getDatabase().get(0);
-		   return databaseUtilites.connectThisDatabase(databaseModel, query);
+		   result = databaseUtilites.connectThisDatabase(databaseModel, query);
 		  } catch (Exception e2) {
-		  }return null;
+		  }return result;
 	 }
 	 
 	 

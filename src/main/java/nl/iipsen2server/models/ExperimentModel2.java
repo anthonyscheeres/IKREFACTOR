@@ -6,7 +6,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-public class ProjectModel2 {
+public class ExperimentModel2 {
     @Pattern(regexp="^[0-9]*$")
     private long id;
     @NotNull
@@ -22,11 +22,11 @@ public class ProjectModel2 {
     private String inovationCost;
     private String moneySource;
 
-    public ProjectModel2() {
+    public ExperimentModel2() {
 
     }
 
-    public ProjectModel2(@Pattern(regexp = "^[0-9]*$") long id, @NotNull String name,String experimentleaders,
+    public ExperimentModel2(@Pattern(regexp = "^[0-9]*$") long id, @NotNull String name,String experimentleaders,
                         String description, String organisations, String businessOwners, Enum status, String inovationCost,
                         String moneySource) {
         super();
