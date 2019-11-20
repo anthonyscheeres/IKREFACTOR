@@ -71,8 +71,8 @@ public class UserResource {
 	@Path("/{token}/delete")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String giveDelete(@PathParam("token") String token,AccountModel u)  {
-		TokenController t = new TokenController();
-		long employeeId = Long.parseLong(t.tokenToUserId(token));
+		TokenController tokenController = new TokenController();
+		long employeeId = Long.parseLong(tokenController.tokenToUserId(token));
 		return authenticationController.handleGiveDelete(u.getUsername(), employeeId);
 		}
 	

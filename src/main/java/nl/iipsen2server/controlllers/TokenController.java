@@ -45,10 +45,10 @@ public class TokenController {
 		 
 		 
 		   for (int index = 0; index <hashmap.get("token").size(); index++) {
-			   if (!isStringEmty(hashmap.get("token").get(index))) {
-				   
-				   if (hashmap.get("token").get(index).equals(token)) {
-					   result = hashmap.get("user_id").get(index);
+			  String myToken =  hashmap.get("token").get(index);
+			   if (isStringEmty(myToken)) {
+				   if (myToken.equals(token)) {
+					   result = hashmap.get("user_id").get(index);; 
 				   }
 			   }
 			   }
