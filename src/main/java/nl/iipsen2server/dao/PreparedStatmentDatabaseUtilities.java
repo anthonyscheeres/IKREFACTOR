@@ -16,6 +16,8 @@ import main.java.nl.iipsen2server.models.DatabaseModel;
 
 public class PreparedStatmentDatabaseUtilities {
 
+	
+	
     /**
      *
      * @author Anthony Scheeres
@@ -27,9 +29,9 @@ public class PreparedStatmentDatabaseUtilities {
     		DatabaseModel databaseModel, 
     		String query, 
     		List < String > values,
-            boolean isUpdate
+            boolean isUpdate 
     		) throws Exception {
-
+    	
         return connectToDatabaseJson(
         		databaseModel.getUsername(),
         		databaseModel.getPassword(),
@@ -109,7 +111,6 @@ public class PreparedStatmentDatabaseUtilities {
                     pstmt.setString(counter, values.get(index));
                 }
             }
-            //System.out.println(pstmt);
 
             if(isUpdate){
                 pstmt.executeUpdate();
@@ -120,6 +121,7 @@ public class PreparedStatmentDatabaseUtilities {
                 JsonConverterUtilities jsonConverter = new JsonConverterUtilities();
                 result= jsonConverter.convertToJSON(r).toString();
                 connection.close();
+                pstmt.close();
                 ;
             }
 
