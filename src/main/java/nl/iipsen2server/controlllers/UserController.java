@@ -85,6 +85,7 @@ public class UserController {
 
     /**
      * @author Anthony Scheeres
+     * 
      */
     public boolean checkIfUsernameExist(List<String> list, String username) {
     	

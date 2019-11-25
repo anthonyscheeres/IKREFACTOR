@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import main.java.nl.iipsen2server.dao.DatabaseUtilities;
-import main.java.nl.iipsen2server.dao.UserDatabase;
+import main.java.nl.iipsen2server.dao.UserDAO;
 import main.java.nl.iipsen2server.models.DataModel;
 import main.java.nl.iipsen2server.models.DatabaseModel;
+import main.java.nl.iipsen2server.models.Response;
 
 public class TokenController {
 	 
@@ -18,7 +19,7 @@ public class TokenController {
 		*
 		*/
 		private HashMap<String, List<String>> getTokens() throws Exception {
-		 UserDatabase userDatabase = new UserDatabase();
+		 UserDAO userDatabase = new UserDAO();
 		 return userDatabase.getTokens();
 	 }
 	 
@@ -73,7 +74,7 @@ public class TokenController {
 		   catch (Exception e) {
 		   e.printStackTrace();
 		  }
-		  return "fail";
+		  return Response.fail.toString();
 	 }
 	 
 	 

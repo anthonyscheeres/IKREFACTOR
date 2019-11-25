@@ -18,9 +18,13 @@ import main.java.nl.iipsen2server.resources.LogResource;
 import main.java.nl.iipsen2server.resources.UserResource;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 import javax.swing.*;
 import java.io.File;
+import java.util.EnumSet;
 
 
 
@@ -50,12 +54,26 @@ class Iipsen2groep2serverApplication extends Application<Configuration> {
 	     */
 	    @Override
 	    public void run(Configuration configuration, Environment environment) throws Exception {
+	    
+	    	
 	    	intializeSettings();
+	    	 // Enable CORS headers
+	        final FilterRegistration.Dynamic cors =
+	            environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+
+	        // Configure CORS parameters
+	        cors.setInitParameter("allowedOrigins", "*");
+	        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
+	        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+
+	        // Add URL mapping
+	        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 			environment.jersey().register(new UserResource());
 			environment.jersey().register(new LogResource());
 			environment.jersey().register(new ExperimentResource());
 	    
 	    }
+	    
 	    
 	    
 	    public void intializeSettings() throws JsonProcessingException {
