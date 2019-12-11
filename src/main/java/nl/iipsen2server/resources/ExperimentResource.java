@@ -3,7 +3,7 @@ package main.java.nl.iipsen2server.resources;
 
 import main.java.nl.iipsen2server.controlllers.ExperimentController;
 import main.java.nl.iipsen2server.dao.ExperimentDatabase;
-import main.java.nl.iipsen2server.models.ExperimentModel;
+import main.java.nl.iipsen2server.models.ExperimentModel2;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -22,7 +22,7 @@ public class ExperimentResource {
      */
     @POST
     @Path("/{token}/remove")
-    public void deleteExperiment(@PathParam("token") String token, ExperimentModel experimentModel) {
+    public void deleteExperiment(@PathParam("token") String token, ExperimentModel2 experimentModel) {
         experimentcontroller.deleteExperiment(experimentModel, token);
     }
     /**

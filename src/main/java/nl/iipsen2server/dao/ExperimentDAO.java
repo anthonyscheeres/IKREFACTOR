@@ -2,7 +2,7 @@ package main.java.nl.iipsen2server.dao;
 
 import main.java.nl.iipsen2server.models.DataModel;
 import main.java.nl.iipsen2server.models.DatabaseModel;
-import main.java.nl.iipsen2server.models.ExperimentModel;
+import main.java.nl.iipsen2server.models.ExperimentModel2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class ExperimentDAO {
  * @author Jesse Poleij
  *
  */
-    public void deleteExperiment(ExperimentModel project) {
+    public void deleteExperiment(ExperimentModel2 project) {
         String query = "DELETE FROM projects WHERE id = ?;";
 
         List< String > arrayList = new ArrayList<>();
@@ -28,7 +28,7 @@ public class ExperimentDAO {
         }
 
     }
-    public void showOverview(ExperimentModel project) {
+    public void showOverview(ExperimentModel2 project) {
         String query = "";
 
 

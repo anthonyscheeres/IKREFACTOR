@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 import main.java.nl.iipsen2server.models.ApplicationModel;
 import main.java.nl.iipsen2server.models.DataModel;
 import main.java.nl.iipsen2server.models.LogModel;
-import main.java.nl.iipsen2server.models.OrganisationModel;
 import main.java.nl.iipsen2server.models.ServerModel;
 import main.java.nl.iipsen2server.models.UserModel;
 
@@ -40,7 +39,6 @@ public class ApplicationController {
 				new ArrayList<UserModel>(), 
 				new ArrayList<LogModel>(),
 				new ArrayList<ServerModel>(), 
-				new ArrayList<OrganisationModel>(), 
 				name, 
 				null
 				);
@@ -54,9 +52,9 @@ public class ApplicationController {
 	 * @author Anthony Scheeres
 	 * @param currentUser 
 	 */
-	private ApplicationModel createApplication(List<UserModel> users, List<LogModel> logs, @NotNull List<ServerModel> servers,
-											   List<OrganisationModel> organisaties, String name, UserModel currentUser){
-		return new  ApplicationModel(users, logs, servers, organisaties, name, currentUser);
+	private ApplicationModel createApplication	(List<UserModel> users, List<LogModel> logs
+,List<ServerModel> servers,String name, UserModel currentUser){
+		return new  ApplicationModel(users,logs, servers, name,currentUser );
 	}
 	
 	
