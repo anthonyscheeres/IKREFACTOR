@@ -16,7 +16,7 @@ public class ExperimentDatabase {
      */
     public String showExperiments(){
         String query = String.format("select id, project_name, experiment_leader, status from %s;", tableName);
-        System.out.println(query);
+        //query);
         return ConnectToDatabase(query);
     }
   
@@ -25,7 +25,7 @@ public class ExperimentDatabase {
      */
     public String showExperiment(int id){
         String query = String.format("SELECT * FROM %s WHERE id = '%d';", tableName, id);
-        System.out.println(query);
+        //query);
         return ConnectToDatabase(query);
     }
 
@@ -49,7 +49,7 @@ public class ExperimentDatabase {
      */
 	public String showAllExperimentHashmap() throws Exception {
 		  String query = String.format("select * from %s;", tableName);
-	     //   System.out.println(query);
+	     //   //query);
 	        DatabaseUtilities d = new DatabaseUtilities();
         return d.connectThisDatabase(databaseModel, query).toString();
 	}
@@ -59,7 +59,7 @@ public class ExperimentDatabase {
      */
 	public String showAllExperimentJson() throws Exception {
 		  String query = String.format("select * from %s;", tableName);
-	     //   System.out.println(query);
+	     //   //query);
 	        DatabaseUtilities d = new DatabaseUtilities();
         return d.connectThisDatabase2(databaseModel, query);
 	}

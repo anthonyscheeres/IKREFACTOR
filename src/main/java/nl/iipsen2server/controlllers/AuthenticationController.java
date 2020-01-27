@@ -166,7 +166,7 @@ public boolean validate(String token, String permission) {
 
 		String resultset = authenticationDAO.userIDtoUsername(userID);
 
-		System.out.println(resultset);
+		//resultset);
 
 
 	}

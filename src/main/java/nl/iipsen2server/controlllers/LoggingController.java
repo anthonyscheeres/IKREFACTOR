@@ -32,7 +32,7 @@ public class LoggingController {
     public String showlogs(int id) throws Exception {
         String query = String.format("SELECT title FROM %s WHERE project_id = ", tableName);
         query += id + ";";
-        System.out.println(query);
+        //query);
         DatabaseUtilities d = new DatabaseUtilities();
         return d.connectThisDatabase2(databaseModel, query);
     }
@@ -57,7 +57,7 @@ public class LoggingController {
                 "?," +
                 "?" +
                 ");";
-            System.out.println(query2);
+            //query2);
             try {
                 List <String> f2 = new ArrayList < > ();
                 f2.add(l.getTitle());

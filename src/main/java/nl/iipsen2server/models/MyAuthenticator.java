@@ -10,7 +10,7 @@ public class MyAuthenticator extends Authenticator {
 	public PasswordAuthentication getPasswordAuthentication() {
         String username = mailModel.getUsername();
         String password = mailModel.getPassword();
-        System.out.println("username : "+username+"\n password : "+ password);
+        //"username : "+username+"\n password : "+ password);
         return new PasswordAuthentication(username, password);
     }
 }

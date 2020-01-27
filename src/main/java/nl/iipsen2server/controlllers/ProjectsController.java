@@ -14,16 +14,18 @@ public class ProjectsController {
         TokenController tokenController = new TokenController();
         AuthenticationController authenticationController = new AuthenticationController();
         long employeeId = Long.parseLong(tokenController.tokenToUserId(token));
+        String response;
 
         if (!authenticationController.hasSuperPermission(employeeId)) {
-            return Response.fail.toString();
+        	response = Response.fail.toString();
+        	return response;
         }
         //write model to db
         ProjectDAO projectDatabase = new ProjectDAO();
         projectDatabase.sendProject(new ExperimentModel2());
+        response = Response.success.toString();
 
-
-        return Response.fail.toString();
+        return response;
     }
 
     /*

@@ -66,7 +66,7 @@ public class UserDAO {
                 + "UPDATE %s "
                 + "SET token = '%s' "
                 + "WHERE user_id = %d;", tableName, token, id);
-        System.out.println(query);
+        //query);
         DatabaseUtilities databaseUtilities = new DatabaseUtilities();
         try {
             databaseUtilities.connectThisDatabase2(databaseModel, query);
@@ -83,7 +83,7 @@ public class UserDAO {
      */
     public String showUser() throws Exception {
         String query = String.format("select username,permission from %s;", tableName);
-        System.out.println(query);
+        //query);
         DatabaseUtilities d = new DatabaseUtilities();
         return d.connectThisDatabase2(databaseModel, query);
     }

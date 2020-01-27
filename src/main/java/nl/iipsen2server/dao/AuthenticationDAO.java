@@ -18,25 +18,26 @@ public class AuthenticationDAO {
 	 private UserDAO userDatabase = new UserDAO();
 
 
-
+private boolean hasSuper(AccountModel u, Enum permission) {
+		 String query2 = "select permission from app_user where username=?;";
+return !userDatabase.hasPermission(permission.toString(), u.getUsername(), query2);
+}
 
 	 /**
 	  *
 	  * @author Anthony Scheeres
 	 * @return 
+	 * @throws Exception 
 	  * 
 	  *
 	  */
-	 public boolean giveRead2(AccountModel u) {
-		  String query2 = "select permission from app_user where username=?;";
-		  Enum permission = Permission.READ;
-	 if (!userDatabase.hasPermission(permission.toString(), u.getUsername(), query2)) {
-		  try {
+	 public boolean giveRead2(AccountModel u) throws Exception {
+		 Enum permission = Permission.READ;
+	 if (hasSuper(u, permission)) {
 			givePermission(u, permission);
 			 return true;
-		} catch (Exception e) {
-		}
-	 }return false;
+		} 
+	 return false;
 	 }
 
 

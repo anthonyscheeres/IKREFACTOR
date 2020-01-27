@@ -18,7 +18,7 @@ public class DirectoryController {
 */
 	  public String writeFileToDocuments(String folder, String fileName, String value){
 	    	String url = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
-	    	System.out.println(url);
+	    	////url);
 	    	  String result = null;
 	    	try {
 				result = writeFile(url, folder, fileName, value);
@@ -42,13 +42,13 @@ private String writeFile(String url, String folder, String fileName, String valu
 	    	String path = null;
 	    	if (!file.exists()) {
 	    	    if (file.mkdir()) {
-	    	        System.out.println("Directory created!");
+	    	        //"Directory created!");
 	    	    } else {
-	    	        System.out.println("Failed to create directory");
+	    	        //"Failed to create directory");
 	    	    }
 	    	}
 	    	path = url +"/"+ folder+ "/" + fileName;
-	    	System.out.println(path);
+	    	//path);
 	    	File files = new File(path);
 	    	if(!files.exists()){
 	    		files.createNewFile();
@@ -57,7 +57,7 @@ private String writeFile(String url, String folder, String fileName, String valu
     	        bw.write(value);
     	        bw.close();
 	    		}else{
-	    		  System.out.println("File already exists");
+	    		  //"File already exists");
 	    		}
 	    		
 	
