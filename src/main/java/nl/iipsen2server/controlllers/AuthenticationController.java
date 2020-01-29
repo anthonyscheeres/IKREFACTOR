@@ -64,6 +64,7 @@ public class AuthenticationController {
 		LoggingController loggingController = new LoggingController();
 		AccountController accountController = new AccountController();
 		TokenController tokkenController = new TokenController();
+		
 		long employeeId = Long.parseLong(tokkenController.tokenToUserId(token));
 		if (!hasSuperPermission(employeeId)) {
 			return Response.fail.toString();

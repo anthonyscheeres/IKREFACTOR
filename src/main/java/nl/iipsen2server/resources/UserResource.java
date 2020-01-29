@@ -166,7 +166,7 @@ public class UserResource {
 	@GET
 	@Path("/{token}/token")
 	public String validateToken(@PathParam("token") String token){
-		return accountController.validateToken(token);
+		return accountController.handleValidateToken(token);
 	}
 	
 	/**

@@ -14,6 +14,7 @@ import main.java.nl.iipsen2server.models.Response;
 import main.java.nl.iipsen2server.models.RestApiModel;
 import main.java.nl.iipsen2server.models.User;
 import main.java.nl.iipsen2server.models.UserModel;
+import main.java.nl.iipsen2server.models.ValidateEmailModel;
 import main.java.nl.iipsen2server.dao.DatabaseUtilities;
 import main.java.nl.iipsen2server.dao.PermissionDAO;
 import main.java.nl.iipsen2server.dao.PreparedStatmentDatabaseUtilities;
@@ -29,7 +30,7 @@ import main.java.nl.iipsen2server.models.AccountModel;
 public class AccountController {
 private UserDAO userDatabase = new UserDAO();
 private PermissionDAO permissionDatabase = new PermissionDAO();
-
+String domain = "OM.NL";
 
 /**
 *
@@ -218,33 +219,78 @@ private String askNewTokenForAccount(int id) {
   return username.equals(username2) && password.equals(password2);
  }
 
+ public String handleValidateToken(String token) {
+     String response = Response.fail.toString();
+	 try {
+		return validateToken(token);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	 return response;
+ }
+ /**
+  * @author Anthony Scheeres
+  * @throws Exception 
+  */
+ public String validateToken(String token) throws Exception  {
+     MailController mailController = new MailController();
+     HashMap<String, List<String>> data = mailController.getTokens();
+     String response = Response.fail.toString();
+    
+     
+     //loop over database records
+     for (int i = 0; i < data.get(User.token.toString()).size(); i++) {
+     	String email = data.get(User.email.toString()).get(i); //get mail from hashmap
+     	String tokenFromDatabase = data.get(User.token.toString()).get(i); //get token  from hashmap
+     	String username = data.get(User.username.toString()).get(i); //use username to uniquely identify a user 
+     	String yourDomain = getDomeinNameFromMail(email.toUpperCase()); //get domain from email
+     	
+     	ValidateEmailModel validateEmailModel = new ValidateEmailModel(email, tokenFromDatabase, username, yourDomain, token);
+     	
+      response = isGivePermissionIfTokenValid(validateEmailModel);
+ }
+     return response ;
+     
+     
+ }
+ 
+ 
+ public String isGivePermissionIfTokenValid(	ValidateEmailModel validateEmailModel) throws Exception {
+ 	
+ 	String email = validateEmailModel.getEmail(); 
+ 	String tokenFromDatabase = validateEmailModel.getTokenFromDatabase();
+ 	String username = validateEmailModel.getUsername(); 
+ 	String yourDomain = validateEmailModel.getYourDomain(); 
+ 	String token = validateEmailModel.getToken();
+ 	 String response = Response.fail.toString();
 
-    /**
-     * @author Anthony Scheeres
-     */
-    public String validateToken(String token) {
-        MailController mailController = new MailController();
-        HashMap<String, List<String>> data = mailController.getTokens();
-        String domain = "OM.NL";
-        for (int i = 0; i < data.get(User.token.toString()).size(); i++) {
-        	String email = data.get(User.email.toString()).get(i);
-        	String tokenFromDatabase = data.get(User.token.toString()).get(i);
-        	
-        	
-            if (email != null && tokenFromDatabase != null) {
-                if (token.equals(tokenFromDatabase)) {
-                	String yourDomain = getDomeinNameFromMail(email.toUpperCase());
-                    if ( yourDomain.equals(domain)) {
-                    	String accountModel = data.get(User.username.toString()).get(i); //use username to uniquely identify a user 
-                        giveRead2(accountModel);
-                        return Response.success.toString();
-                    } else return "domein invalid, should be: " + domain;
-                }
-            }
-        }
-        return Response.fail.toString();
-    }
+ 	 boolean isNullInput = email != null && tokenFromDatabase != null; 
+ 	 
+ 	if (isNullInput) {
+ 		
+         if (token.equals(tokenFromDatabase)) {
+         	
+             if ( yourDomain.equals(domain)) {
+             
+             	//give read permissions
+             	giveRead2(username);
+             
+                 
+                 
+                 
+                 response = Response.success.toString();
+             } 
+             
+             else response ="domein invalid, should be: " + domain.toLowerCase();
+         
+         }
 
+         
+     }   return response;
+ }
+
+ 
     /**
      * @author Anthony Scheeres
      */
