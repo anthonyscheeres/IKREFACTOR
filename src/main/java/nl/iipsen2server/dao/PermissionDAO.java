@@ -26,25 +26,27 @@ public class PermissionDAO {
 	  * 
 	  *
 	  */
-	 public boolean giveRead2(String u) {
-		  Enum permission = Permission.READ;
+	 public boolean giveReadToAccountWithFollowingUsername(String username) {
+		  Enum permissionReadToGive = Permission.READ;
 
-		  return handleGivePermission(u, permission);
+		  return handleAutorizeGivePermission(username, permissionReadToGive);
 	 }
 
 	 
-	 public boolean handleGivePermission(String u, Enum permission) {
-		  String query2 = "select permission from app_user where username=?;";
-		boolean hasSuper = !userDatabase.hasPermission(permission.toString(), u, query2);
-	 if (hasSuper) {
-		  try {
-			  handleGivePermission(u, permission);
-			 return hasSuper;
-		} catch (Exception e) {
+	 public boolean handleAutorizeGivePermission(String username, Enum permission) {
+		  String queryUserHistPermissionOnApi = "select permission from app_user where username=?;";
+		boolean hasAlreadyThisPermission = !userDatabase.hasPermissionOnApi(permission.toString(), username, queryUserHistPermissionOnApi);
 		
+		
+		
+	 if (hasAlreadyThisPermission) {
+		  try {
+			  givePermissionOnApi(username, permission);
+		} catch (Exception e) {
+		e.printStackTrace();
 		}
 		  
-	 }return hasSuper;
+	 }return hasAlreadyThisPermission;
 	 }
 	 /**
 	 *
@@ -54,8 +56,8 @@ public class PermissionDAO {
 	 *
 	 */
 	 public boolean giveWrite2(String u) {
-		  Enum permission = Permission.WRITE;
-		  return handleGivePermission(u, permission);
+		  Enum permissionReadToGive = Permission.WRITE;
+		  return handleAutorizeGivePermission(u, permissionReadToGive);
 	 }
 
 	 
@@ -64,10 +66,10 @@ public class PermissionDAO {
 	 /**
 	  * @author Anthony Scheeres
 	  */
-	 public boolean giveDelete2(String u) {
-		  Enum permission = Permission.DELETE;
+	 public boolean giveDeleteToAccountWithFollowingUsername(String username) {
+		  Enum permissionReadToGive = Permission.DELETE;
 
-		  return handleGivePermission(u, permission);
+		  return handleAutorizeGivePermission(username, permissionReadToGive);
 	 }
 
 
@@ -81,12 +83,13 @@ public class PermissionDAO {
 	  * @author Anthony Scheeres
 	  *
 	  */
-	 private void givePermission(String u, Enum e) throws Exception {
+	 private void givePermissionOnApi(String u, Enum e) throws Exception {
+	
 		  PreparedStatmentDatabaseUtilities databaseController = new PreparedStatmentDatabaseUtilities();
 		  List < String > list = new ArrayList < String > ();
-		  String query2 = String.format("UPDATE app_user SET permission = array_append(permission,'%s') WHERE username = ?;", e);
+		  String queryupdatePermissionAddPermission = String.format("UPDATE app_user SET permission = array_append(permission,'%s') WHERE username = ?;", e);
 		  list.add(u);
-		  databaseController.connectDatabaseJson(databaseModel, query2, list, false);
+		  databaseController.connectDatabaseThrowQueryReturnsJson(databaseModel, queryupdatePermissionAddPermission, list, false);
 	 }
 	 
 	 
@@ -97,7 +100,7 @@ public class PermissionDAO {
 	  *  
 	  */
 public boolean hasEnumHandeler(long employeeId, String permission) {
-	  String query2 = "select permission from app_user where user_id=?;";
-	return userDatabase.hasPermission( permission, Long.toString(employeeId), query2) ;	
+	  String queryGetPermissionById = "select permission from app_user where user_id=?;";
+	return userDatabase.hasPermissionOnApi( permission, Long.toString(employeeId), queryGetPermissionById) ;	
 }
 }

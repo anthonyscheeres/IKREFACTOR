@@ -22,7 +22,7 @@ public class ExperimentDAO {
         arrayList.add(Long.toString(project.getId()));
 
         try {
-            preparedStatmentDatabaseUtilities.connectDatabaseJson(databaseModel, query, arrayList, false);
+            preparedStatmentDatabaseUtilities.connectDatabaseThrowQueryReturnsJson(databaseModel, query, arrayList, false);
         } catch (Exception e) {
 
         }

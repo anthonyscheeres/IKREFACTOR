@@ -45,13 +45,13 @@ public class ProjectDAO {
     *@author Cyriel van der Raaf
     *Gebruikt een prepared statement om een project te verwijderen.
     */
-    public void deleteProject(ExperimentModel2 projectModel){
+    public void deleteProjectFromDatabase(ExperimentModel2 projectModel){
         DatabaseUtilities databaseUtilities = new DatabaseUtilities();
 
         String query1 = String.format("DELETE FROM projects WHERE id='&d';", projectModel.getId());
 
         try {
-            databaseUtilities.connectThisDatabase2(databaseModel, query1);
+            databaseUtilities.connectThisDatabaseThrowQueryToDatabaseFromConfigFile(databaseModel, query1);
         } catch (Exception e) {
             e.printStackTrace();
         }

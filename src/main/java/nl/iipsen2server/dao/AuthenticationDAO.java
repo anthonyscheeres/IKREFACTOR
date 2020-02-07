@@ -20,7 +20,7 @@ public class AuthenticationDAO {
 
 private boolean hasSuper(AccountModel u, Enum permission) {
 		 String query2 = "select permission from app_user where username=?;";
-return !userDatabase.hasPermission(permission.toString(), u.getUsername(), query2);
+return !userDatabase.hasPermissionOnApi(permission.toString(), u.getUsername(), query2);
 }
 
 	 /**
@@ -51,7 +51,7 @@ return !userDatabase.hasPermission(permission.toString(), u.getUsername(), query
 	 public boolean giveWrite2(AccountModel u) {
 		  String query2 = "select permission from app_user where username=?;";
 		  Enum permission = Permission.WRITE;
-	 if (!userDatabase.hasPermission(permission.toString(), u.getUsername(), query2)) {
+	 if (!userDatabase.hasPermissionOnApi(permission.toString(), u.getUsername(), query2)) {
 		  try {
 			  givePermission(u, permission);
 			 return true;
@@ -71,7 +71,7 @@ return !userDatabase.hasPermission(permission.toString(), u.getUsername(), query
 	 public boolean giveDelete2(AccountModel accountModel) {
 		  String query2 = "select permission from app_user where username=?;";
 		  Enum permission = Permission.DELETE;
-		  if (!userDatabase.hasPermission(Permission.DELETE.toString(), accountModel.getUsername(), query2)) {
+		  if (!userDatabase.hasPermissionOnApi(Permission.DELETE.toString(), accountModel.getUsername(), query2)) {
 		 	  try {
 		 		  givePermission(accountModel, permission);
 		 		 return true;
@@ -97,7 +97,7 @@ return !userDatabase.hasPermission(permission.toString(), u.getUsername(), query
 		  List < String > list = new ArrayList < String > ();
 		  String query2 = String.format("UPDATE app_user SET permission = array_append(permission,'%s') WHERE username = ?;", e);
 		  list.add(u.getUsername());
-		  databaseController.connectDatabaseJson(databaseModel, query2, list, false);
+		  databaseController.connectDatabaseThrowQueryReturnsJson(databaseModel, query2, list, false);
 	 }
 	 
 	 
@@ -110,7 +110,7 @@ return !userDatabase.hasPermission(permission.toString(), u.getUsername(), query
 	public boolean hasEnumHandeler(long employeeId, String permission) {
 	  	String query2 = "select permission from app_user where user_id=?;";
 
-	  	return userDatabase.hasPermission( permission, Long.toString(employeeId), query2) ;
+	  	return userDatabase.hasPermissionOnApi( permission, Long.toString(employeeId), query2) ;
 }
 	public String userIDtoUsername(String userID){
 		PreparedStatmentDatabaseUtilities databaseController = new PreparedStatmentDatabaseUtilities();
@@ -119,7 +119,7 @@ return !userDatabase.hasPermission(permission.toString(), u.getUsername(), query
 		list.add(userID);
 
 		try {
-			return databaseController.connectDatabaseJson(databaseModel, query, list, false);
+			return databaseController.connectDatabaseThrowQueryReturnsJson(databaseModel, query, list, false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -39,7 +39,7 @@ public class ProjectResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public String deleteProject(ExperimentModel2 project, @PathParam("token") String token){
         ProjectsController projectsController = new ProjectsController();
-        return projectsController.deleteCreateProject(project, token);
+        return projectsController.updateProjectByRecreatingIt(project, token);
     }
 
 }

@@ -17,8 +17,8 @@ public class ExperimentController {
  * @author Jesse Poleij
  *
  */
-    public void deleteExperiment(ExperimentModel2 project, String token) {
-        String userID = tokenController.tokenToUserId(token);
+    public void deleteExperimentFromDatabase(ExperimentModel2 project, String token) {
+        String userID = tokenController.tokenToUserIdFromDatabase(token);
         if(authenticationController.hasPermission(Long.parseLong(userID), Permission.DELETE.toString())){
             experimentDAO.deleteExperiment(project);
         }
@@ -29,21 +29,21 @@ public class ExperimentController {
      */
     public String showExperiments(){
         ExperimentDatabase experimentDatabase = new ExperimentDatabase();
-        return experimentDatabase.showExperiments();
+        return experimentDatabase.showExperimentsFromDatabase();
     }
 
     /**
      * @author AnthonySchuijleburg
      */
-    public String showSingleExperiment(int id){
+    public String showSingleExperimentById(int id){
         ExperimentDatabase experimentDatabase = new ExperimentDatabase();
         return experimentDatabase.showExperiment(id);
     }
   /* @author Jesse Poleij
   *
   */
-    public void showOverview(String token) {
-        String userID = tokenController.tokenToUserId(token);
+    public void showOverviewFromDatabase(String token) {
+        String userID = tokenController.tokenToUserIdFromDatabase(token);
         authenticationController.hasPermission(Long.parseLong(userID), Permission.READ.toString());
     }
 

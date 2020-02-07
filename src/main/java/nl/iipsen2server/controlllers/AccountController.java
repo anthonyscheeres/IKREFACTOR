@@ -25,27 +25,21 @@ import main.java.nl.iipsen2server.models.AccountModel;
 /**
  * @author Anthony Scheeres
  */
-
-
 public class AccountController {
+	
+//global objects
 private UserDAO userDatabase = new UserDAO();
 private PermissionDAO permissionDatabase = new PermissionDAO();
 String domain = "OM.NL";
 
-/**
-*
-* @author Anthony Scheeres
 
-*
-*
-*/
 
 /**
  * @return
  * @author Anthony Scheeres
  */
     public boolean giveRead2(String username) {
-        return permissionDatabase.giveRead2(username);
+        return permissionDatabase.giveReadToAccountWithFollowingUsername(username);
     }
 
 
@@ -53,6 +47,7 @@ String domain = "OM.NL";
      * @author Anthony Scheeres
      */
     public boolean giveWrite2(String user) {
+    	//pass give permission to responsable controller
         return permissionDatabase.giveWrite2(user);
     }
 
@@ -60,7 +55,9 @@ String domain = "OM.NL";
      * @author Anthony Scheeres
      */
     public boolean giveDelete2(String user) {
-        return permissionDatabase.giveDelete2(user);
+
+    	//pass give permission to responsable controller
+        return permissionDatabase.giveDeleteToAccountWithFollowingUsername(user);
     }
 
     /**
@@ -82,17 +79,21 @@ String domain = "OM.NL";
 
     /**
      * @author Anthony Scheeres
+     * check user his email and password input and reject if something is wrong
      */
     public boolean checkInputValide(String email, String password) {
         MailController m = new MailController();
+        boolean response = true;
+        
+        //check does email have domain
         if (!m.isValidEmailAddress(email)) {
-            return false;
+            response= false;
         }
-
+        //check if password isn't emty
         if (password.length() == 0) {
-            return false;
+            response = false;
         }
-        return true;
+        return response;
     }
 
 
@@ -146,23 +147,25 @@ String domain = "OM.NL";
   *
   */
  public String checkLogin(UserModel u) throws Exception {
+	 //intialize model to variables
   HashMap < String, List < String >> hashmap;
   String response = Response.fail.toString();
    hashmap = userDatabase.getUserInfo();
    List<String> users = hashmap.get(User.username.toString());
    String usernameFromClient = u.getUsername();
    String passwordFromClient = u.getPassword();
+   
+   //loop over users from database
    for (int index = 0; index < users.size(); index++) {
-	   
+	   //initialize variables in hashmap
 	   String username = hashmap.get(User.username.toString()).get(index);
-	   
 	   String passwordFromDatabase = hashmap.get(User.password.toString()).get(index); 
-	   
 	   String token = hashmap.get(User.token.toString()).get(index);
 	   String permission = hashmap.get(User.permission.toString()).get(index);
 	   String UserId = hashmap.get(User.user_id.toString()).get(index);
 	   String responseToUser = GetLoginInformation(username, usernameFromClient, passwordFromDatabase,  passwordFromClient, permission, UserId, token);
 	   
+	   //is login valide
 	   if (!responseToUser.equals(response)) {
 		   return responseToUser;
 	   }

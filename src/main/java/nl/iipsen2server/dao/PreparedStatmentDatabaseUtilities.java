@@ -25,7 +25,7 @@ public class PreparedStatmentDatabaseUtilities {
      *
      */
     //use a database object to connect to database and perform a query
-    public String connectDatabaseJson(
+    public String connectDatabaseThrowQueryReturnsJson(
     		DatabaseModel databaseModel, 
     		String query, 
     		List < String > values,

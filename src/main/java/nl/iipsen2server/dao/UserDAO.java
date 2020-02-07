@@ -32,13 +32,13 @@ public class UserDAO {
 	public boolean hasEnumHandeler(long employeeId, String permission) {
 		String query2 = "select permission from app_user where user_id=?;";
 		UserDAO userDatabase = new UserDAO();
-		return userDatabase.hasPermission(permission, Long.toString(employeeId), query2);
+		return userDatabase.hasPermissionOnApi(permission, Long.toString(employeeId), query2);
 	}
     /**
      * @author Anthony Scheeres
      */
 
-    public boolean hasPermission(String permission, String u, String query2) {
+    public boolean hasPermissionOnApi(String permission, String u, String query2) {
         PreparedStatmentDatabaseUtilities dUtilities = new PreparedStatmentDatabaseUtilities();
         HashMap<String, List<String>> hashMap;
         List<String> array = new ArrayList<String>();
@@ -69,7 +69,7 @@ public class UserDAO {
         //query);
         DatabaseUtilities databaseUtilities = new DatabaseUtilities();
         try {
-            databaseUtilities.connectThisDatabase2(databaseModel, query);
+            databaseUtilities.connectThisDatabaseThrowQueryToDatabaseFromConfigFile(databaseModel, query);
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -81,11 +81,11 @@ public class UserDAO {
     /**
      * @author Anthony Scheeres
      */
-    public String showUser() throws Exception {
+    public String showUserJson() throws Exception {
         String query = String.format("select username,permission from %s;", tableName);
         //query);
-        DatabaseUtilities d = new DatabaseUtilities();
-        return d.connectThisDatabase2(databaseModel, query);
+        DatabaseUtilities databaseUtiles = new DatabaseUtilities();
+        return databaseUtiles.connectThisDatabaseThrowQueryToDatabaseFromConfigFile(databaseModel, query);
     }
 
 
@@ -93,19 +93,19 @@ public class UserDAO {
      * @author Anthony Scheeres
      */
     public String showOneUserPermission(AccountModel u) {
-        PreparedStatmentDatabaseUtilities f = new PreparedStatmentDatabaseUtilities();
-        String result = null;
-        String query =
+        PreparedStatmentDatabaseUtilities databaseUtil = new PreparedStatmentDatabaseUtilities();
+        String resultToReturn = null;
+        String queryForSelectingPermissions =
                 "select username, permission FROM app_user\r\n" +
                         "WHERE username = ? ;";
         List<String> array = new ArrayList<String>();
         array.add(u.getUsername());
         try {
-            result = f.connectDatabaseJson(databaseModel, query, array, false);
+            resultToReturn = databaseUtil.connectDatabaseThrowQueryReturnsJson(databaseModel, queryForSelectingPermissions, array, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return resultToReturn;
     }
 
 
@@ -152,7 +152,7 @@ public class UserDAO {
         variables.add(String.format("%d", id));
         variables.add(u.getEmail());
         variables.add(token);
-        pUtilites.connectDatabaseJson(databaseModel, query2, variables, false);
+        pUtilites.connectDatabaseThrowQueryReturnsJson(databaseModel, query2, variables, false);
         return token;
     }
 
@@ -167,7 +167,7 @@ public class UserDAO {
         List<String> f1 = new ArrayList<String>();
         f1.add(u.getUsername());
         try {
-            f.connectDatabaseJson(databaseModel, query, f1, false);
+            f.connectDatabaseThrowQueryReturnsJson(databaseModel, query, f1, false);
         } catch (Exception e) {
 
         }
@@ -194,7 +194,7 @@ public void removeUserMode(AccountModel u) {
 	List<String> f2 = new ArrayList<String>();
 	f2.add(u.getId());
 	try {
-		preparedStatmentDatabaseUtilities.connectDatabaseJson(databaseModel, deletequery, f1, false);
+		preparedStatmentDatabaseUtilities.connectDatabaseThrowQueryReturnsJson(databaseModel, deletequery, f1, false);
 	} catch (Exception e) {
 	}
 }

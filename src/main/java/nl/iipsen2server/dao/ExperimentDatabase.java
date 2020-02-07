@@ -14,7 +14,7 @@ public class ExperimentDatabase {
     /**
      * @author AnthonySchuijleburg
      */
-    public String showExperiments(){
+    public String showExperimentsFromDatabase(){
         String query = String.format("select id, project_name, experiment_leader, status from %s;", tableName);
         //query);
         return ConnectToDatabase(query);
@@ -37,7 +37,7 @@ public class ExperimentDatabase {
         DatabaseUtilities d = new DatabaseUtilities();
         String e1 = null;
         try {
-            e1 = d.connectThisDatabase2(databaseModel, url);
+            e1 = d.connectThisDatabaseThrowQueryToDatabaseFromConfigFile(databaseModel, url);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,11 +57,11 @@ public class ExperimentDatabase {
     /**
      * @author Anthony Scheeres
      */
-	public String showAllExperimentJson() throws Exception {
+	public String showAllExperimentAsJsonString() throws Exception {
 		  String query = String.format("select * from %s;", tableName);
 	     //   //query);
 	        DatabaseUtilities d = new DatabaseUtilities();
-        return d.connectThisDatabase2(databaseModel, query);
+        return d.connectThisDatabaseThrowQueryToDatabaseFromConfigFile(databaseModel, query);
 	}
 	
 	

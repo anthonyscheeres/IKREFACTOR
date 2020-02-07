@@ -13,29 +13,29 @@ public class ProjectsController {
         //validate user
         TokenController tokenController = new TokenController();
         AuthenticationController authenticationController = new AuthenticationController();
-        long employeeId = Long.parseLong(tokenController.tokenToUserId(token));
-        String response;
+        long employeeId = Long.parseLong(tokenController.tokenToUserIdFromDatabase(token));
+        String responseFromController;
 
         if (!authenticationController.hasSuperPermission(employeeId)) {
-        	response = Response.fail.toString();
-        	return response;
+        	responseFromController = Response.fail.toString();
+        	return responseFromController;
         }
         //write model to db
         ProjectDAO projectDatabase = new ProjectDAO();
         projectDatabase.sendProject(new ExperimentModel2());
-        response = Response.success.toString();
+        responseFromController = Response.success.toString();
 
-        return response;
+        return responseFromController;
     }
 
     /*
     *@author Cyriel van der Raaf
     */
-    public String deleteCreateProject(ExperimentModel2 project, String token){
+    public String updateProjectByRecreatingIt(ExperimentModel2 project, String token){
         //validate user
         TokenController tokenController = new TokenController();
         AuthenticationController authenticationController = new AuthenticationController();
-        long employeeId = Long.parseLong(tokenController.tokenToUserId(token));
+        long employeeId = Long.parseLong(tokenController.tokenToUserIdFromDatabase(token));
 
         if (!authenticationController.hasSuperPermission(employeeId)) {
             return Response.fail.toString();
@@ -43,7 +43,7 @@ public class ProjectsController {
 
         //project delete model
         ProjectDAO deleteDatabase = new ProjectDAO();
-        deleteDatabase.deleteProject(new ExperimentModel2());
+        deleteDatabase.deleteProjectFromDatabase(new ExperimentModel2());
 
 
         return Response.fail.toString();

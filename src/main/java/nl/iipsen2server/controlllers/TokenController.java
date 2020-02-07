@@ -62,7 +62,7 @@ public class TokenController {
 	 * 
 	 *
 	 */
-	 public String tokenToUserId(String token) {
+	 public String tokenToUserIdFromDatabase(String token) {
 		  HashMap < String, List < String >> hashmap = null;
 		  try {
 			  hashmap = getTokens();

@@ -23,7 +23,7 @@ public class LogResource {
     @POST
     @Path("/log/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void createLog(LogModel l, @PathParam("id") int id) {
+    public void createLogByUserId(LogModel l, @PathParam("id") int id) {
         log.createLog(l, id);
     }
 
@@ -33,8 +33,8 @@ public class LogResource {
     @GET
     @Path("/logs/{id}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String showlogs(@PathParam("id") int id) throws Exception {
-        return log.showlogs(id);
+    public String showAlllogsForAdmin(@PathParam("id") int id) throws Exception {
+        return log.showlogsIfIdIsFromAnAdmin(id);
     }
 
 }

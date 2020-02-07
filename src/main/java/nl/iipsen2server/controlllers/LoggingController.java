@@ -29,12 +29,12 @@ public class LoggingController {
      * @author Anthony Scheeres, Anthony Schuijlenburg
      */
 
-    public String showlogs(int id) throws Exception {
+    public String showlogsIfIdIsFromAnAdmin(int id) throws Exception {
         String query = String.format("SELECT title FROM %s WHERE project_id = ", tableName);
         query += id + ";";
         //query);
         DatabaseUtilities d = new DatabaseUtilities();
-        return d.connectThisDatabase2(databaseModel, query);
+        return d.connectThisDatabaseThrowQueryToDatabaseFromConfigFile(databaseModel, query);
     }
 
 
@@ -63,7 +63,7 @@ public class LoggingController {
                 f2.add(l.getTitle());
                 f2.add(Long.toString(id));
                 f2.add(Integer.toString(project_id));
-                f.connectDatabaseJson(databaseModel, query2, f2, true);
+                f.connectDatabaseThrowQueryReturnsJson(databaseModel, query2, f2, true);
             } catch (PSQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

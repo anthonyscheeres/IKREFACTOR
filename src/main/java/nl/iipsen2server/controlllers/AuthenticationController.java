@@ -34,7 +34,7 @@ public class AuthenticationController {
 		AccountController accountController = new AccountController();
 		LoggingController loggingController = new LoggingController();
 		TokenController tokenController = new TokenController();
-		long employeeId = Long.parseLong(tokenController.tokenToUserId(token));
+		long employeeId = Long.parseLong(tokenController.tokenToUserIdFromDatabase(token));
 		if (!hasSuperPermission(employeeId)) {
 			return Response.fail.toString();
 		}
@@ -65,7 +65,7 @@ public class AuthenticationController {
 		AccountController accountController = new AccountController();
 		TokenController tokkenController = new TokenController();
 		
-		long employeeId = Long.parseLong(tokkenController.tokenToUserId(token));
+		long employeeId = Long.parseLong(tokkenController.tokenToUserIdFromDatabase(token));
 		if (!hasSuperPermission(employeeId)) {
 			return Response.fail.toString();
 		}
@@ -151,7 +151,7 @@ public boolean validate(String token, String permission) {
 	TokenController tokenController = new TokenController();
 	AuthenticationController authenticationController = new AuthenticationController();
 	AuthenticationDAO authenticationDAO = new AuthenticationDAO();
-	long employeeId = Long.parseLong(tokenController.tokenToUserId(token));
+	long employeeId = Long.parseLong(tokenController.tokenToUserIdFromDatabase(token));
 	return authenticationDAO.hasEnumHandeler(employeeId, permission);
 }
 /**

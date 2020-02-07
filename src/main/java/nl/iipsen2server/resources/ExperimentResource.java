@@ -23,7 +23,7 @@ public class ExperimentResource {
     @POST
     @Path("/{token}/remove")
     public void deleteExperiment(@PathParam("token") String token, ExperimentModel2 experimentModel) {
-        experimentcontroller.deleteExperiment(experimentModel, token);
+        experimentcontroller.deleteExperimentFromDatabase(experimentModel, token);
     }
     /**
      * @author Jesse Poleij
@@ -34,7 +34,7 @@ public class ExperimentResource {
     @Path("/{token}/overview")
     @Produces(MediaType.TEXT_PLAIN)
     public void showOverview(@PathParam("token") String token){
-        experimentcontroller.showOverview(token);
+        experimentcontroller.showOverviewFromDatabase(token);
     }
 	/**
 	 * @author AnthonySchuijlenburg
@@ -44,7 +44,7 @@ public class ExperimentResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String showExperiments(){
         ExperimentDatabase experimentDatabase = new ExperimentDatabase();
-        return experimentDatabase.showExperiments();
+        return experimentDatabase.showExperimentsFromDatabase();
     }
 
     /**
@@ -55,7 +55,7 @@ public class ExperimentResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String showSingleExperiment(@PathParam("id") int id){
         ExperimentController experimentController = new ExperimentController();
-        return experimentController.showSingleExperiment(id);
+        return experimentController.showSingleExperimentById(id);
     }
 
     
@@ -83,6 +83,6 @@ public class ExperimentResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String showAllExperimentsJson() throws Exception {
         ExperimentDatabase experimentDatabase = new ExperimentDatabase();
-        return experimentDatabase.showAllExperimentJson();
+        return experimentDatabase.showAllExperimentAsJsonString();
     }
 }

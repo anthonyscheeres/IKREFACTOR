@@ -73,7 +73,7 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String giveDelete(@PathParam("token") String token,AccountModel u)  {
 		TokenController tokenController = new TokenController();
-		long employeeId = Long.parseLong(tokenController.tokenToUserId(token));
+		long employeeId = Long.parseLong(tokenController.tokenToUserIdFromDatabase(token));
 		return authenticationController.handleGiveDelete(u.getUsername(), employeeId);
 		}
 	
@@ -192,7 +192,7 @@ public class UserResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String showUsers() throws Exception {
 		UserDAO userDatabase = new UserDAO ();
-		return userDatabase.showUser();
+		return userDatabase.showUserJson();
 	}
 	
 	/**
